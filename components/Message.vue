@@ -5,7 +5,7 @@
     </div>
     <div class="message-container">
       <div class="user-name">{{ displayName }}</div>
-      <div class="message">{{ message.text}}</div>
+      <div class="message">{{ message.text }}</div>
     </div>
   </div>
 </template>
