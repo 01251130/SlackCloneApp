@@ -1,21 +1,6 @@
 <template>
   <div class="chats-container">
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
-    <message />
+    <message v-for="message in messages" :message="message" />
   </div>
 </template>
 
@@ -23,7 +8,11 @@
 import Message from "~/components/Message";
 
 export default {
-  components: { Message }
+  props: ["messages"], // _id.vueの:messagesと紐づく
+  components: { Message },
+  mounted() {
+    console.log(this.messages);
+  }
 };
 </script>
 

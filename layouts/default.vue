@@ -103,6 +103,10 @@ html {
   padding-top: 4px;
 }
 
+.sidebar a {
+  color: #ddd;
+}
+
 .main-content {
   width: 100%;
   background: #f1f1f1;

@@ -1,14 +1,39 @@
 <template>
   <div class="input-container">
-    <textarea v-on:click="login"></textarea>
+    <textarea v-model="text" @keydown.enter="addMessage"></textarea>
   </div>
 </template>
 
 <script>
+import { db } from "~/plugins/firebase";
+
 export default {
+  data() {
+    return {
+      text: null
+    };
+  },
   methods: {
-    login() {
-      window.alert("ログインしてね");
+    addMessage(event) {
+      // 日本語入力中のEnterキー押下は対象外
+      if (this.keyDownedForJPConversion(event)) {
+        return;
+      }
+      const channelId = this.$route.params.id;
+      db.collection("channels")
+        .doc(channelId)
+        .collection("messages")
+        .add({
+          text: this.text
+        })
+        .then(() => {
+          this.text = null;
+        });
+    },
+    keyDownedForJPConversion(event) {
+      debugger;
+      const codeForConversion = 229;
+      return event.keyCode === codeForConversion;
     }
   }
 };
