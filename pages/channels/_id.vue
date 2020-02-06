@@ -29,10 +29,15 @@ export default {
     db.collection("channels")
       .doc(channelId)
       .collection("messages")
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          this.messages.push({ id: doc.id, ...doc.data() });
+      .orderBy("createdAt")
+      .onSnapshot(snapshot => {
+        // messagesコレクションに対して、スナップショットとの差分のみを取得
+        snapshot.docChanges().forEach(change => {
+          const doc = change.doc;
+          // 変更種別が「追加」のみを対象とする
+          if (change.type === "added") {
+            this.messages.push({ id: doc.id, ...doc.data() });
+          }
         });
       });
   }

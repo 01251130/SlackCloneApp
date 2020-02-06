@@ -24,14 +24,14 @@ export default {
         .doc(channelId)
         .collection("messages")
         .add({
-          text: this.text
+          text: this.text,
+          createdAt: new Date().getTime()
         })
         .then(() => {
           this.text = null;
         });
     },
     keyDownedForJPConversion(event) {
-      debugger;
       const codeForConversion = 229;
       return event.keyCode === codeForConversion;
     }
