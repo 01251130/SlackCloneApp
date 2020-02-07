@@ -36,7 +36,6 @@ export default {
   }
 };
 </script>
-script
 
 <style>
 html {
