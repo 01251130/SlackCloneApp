@@ -1,10 +1,12 @@
 <template>
   <div class="input-container">
+    <img v-if="isAuthenticated" :src="user.photoURL" class="avatar" />
     <textarea
       v-model="text"
-      @click="openLoginModal"
+      v-if="isAuthenticated"
       @keydown.enter="addMessage"
     ></textarea>
+    <textarea v-model="text" v-else @click="openLoginModal"></textarea>
     <el-dialog title="" :visible.sync="dialogVisible" width="30%">
       <div class="image-container">
         <img src="~/assets/google_sign_in.png" v-on:click="login" />
@@ -29,6 +31,14 @@ export default {
       dialogVisible: false
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    }
+  },
   methods: {
     // setUserを簡潔に呼び出せるようにする為、mapMutationsにてmethodsに読み込み
     ...mapActions(["setUser"]),
@@ -48,7 +58,11 @@ export default {
         .collection("messages")
         .add({
           text: this.text,
-          createdAt: new Date().getTime()
+          createdAt: new Date().getTime(),
+          user: {
+            name: this.user.displayName,
+            thumbnail: this.user.photoURL
+          }
         })
         .then(() => {
           this.text = null;
@@ -83,6 +97,12 @@ export default {
 .input-container {
   padding: 10px;
   height: 100%;
+  display: flex;
+}
+
+.avatar {
+  height: 100%;
+  width: auto;
 }
 
 textarea {
