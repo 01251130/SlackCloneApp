@@ -48,6 +48,12 @@ export default {
     }
   },
   mounted() {
+    // firebaseから現在ログインしているユーザを取得
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setUser(user);
+      }
+    });
     db.collection("channels")
       .get()
       // querySnapshotは、get()の戻り値
